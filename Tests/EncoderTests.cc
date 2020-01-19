@@ -964,6 +964,8 @@ public:
 
 #ifdef _MSC_VER
         setlocale(LC_ALL, "fr-FR");
+#elif defined(__linux__)
+        setlocale(LC_ALL, "fr_FR.UTF-8");
 #else
         setlocale(LC_ALL, "fr_FR");
 #endif
