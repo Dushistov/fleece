@@ -7014,7 +7014,7 @@ from_stream(std::basic_istream<CharT, Traits>& is, const CharT* fmt,
                     {
                         using dfs = detail::decimal_format_seconds<Duration>;
                         CONSTDATA auto w = Duration::period::den == 1 ? 2 : 3 + dfs::width;
-                        long double S;
+                        long double S = 0.0;
                         read(is, rld{S, 1, width == -1 ? w : static_cast<unsigned>(width)});
                         checked_set(s, round<Duration>(duration<long double>{S}),
                                     not_a_second, is);
