@@ -26,7 +26,7 @@ endif()
 set_source_files(RESULT FLEECE_SRC)
 add_library(FleeceObjects OBJECT ${FLEECE_SRC})
 add_library(Fleece        SHARED  $<TARGET_OBJECTS:FleeceObjects>)
-add_library(FleeceStatic  STATIC  $<TARGET_OBJECTS:FleeceObjects>)
+add_library(FleeceStatic  STATIC  $<TARGET_OBJECTS:FleeceObjects> dummy.cpp)
 target_compile_definitions(FleeceObjects PRIVATE FLEECE_EXPORTS)
 
 # "FleeceBase" static lib for clients that just need support stuff like slice, varint, RefCounted...
