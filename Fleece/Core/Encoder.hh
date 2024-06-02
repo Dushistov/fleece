@@ -217,7 +217,7 @@ namespace fleece { namespace impl {
         void writePointer(ssize_t pos);
         void writeSpecial(uint8_t special);
         void writeInt(uint64_t i, bool isShort, bool isUnsigned);
-        template<typename Float, typename Swapped> void _writeFloat(Float, byte param);
+        void _writeFloat(float);
         const void* writeData(internal::tags, slice s);
         const void* _writeString(slice);
         void addingKey();
