@@ -148,26 +148,22 @@ namespace fleece { namespace impl {
     }
 
 
-    void ValueSlot::set(float f, int tiny) {
-        struct {
-            uint8_t filler = 0;
-            endian::littleEndianFloat le;
-        } data;
-        data.le = f;
-        setValue(kFloatTag, tiny, {(char*)&data.le - 1, sizeof(data.le) + 1});
-        assert_postcondition(asValue()->asFloat() == f);
-    }
-
-
     void ValueSlot::set(float f) {
 #if 0 // Perhaps an option in the future?
-        if (Encoder::isIntRepresentable(f))
+        if (Encoder::isIntRepresentable(f)) {
             set((int32_t)f);
-        else
+        } else
 #endif
-        set(f, kFloatValue32BitSingle);
+        {
+            struct {
+                uint8_t filler = 0;
+                endian::littleEndianFloat le;
+            } data;
+            data.le = f;
+            setValue(kFloatTag, 0, {(char*)&data.le - 1, sizeof(data.le) + 1});
+        }
+        assert_postcondition(asValue()->asFloat() == f);
     }
-
 
     void ValueSlot::set(double d) {
 #if 0 // Perhaps an option in the future?
@@ -176,11 +172,10 @@ namespace fleece { namespace impl {
         } else
 #endif
         if (Encoder::isFloatRepresentable(d)) {
-            set((float)d, kFloatValue32BitDouble);
+            set((float)d);
         } else {
             setPointer(HeapValue::create(d)->asValue());
         }
-        assert_postcondition(asValue()->isDouble());
         assert_postcondition(asValue()->asDouble() == d);
     }
 
